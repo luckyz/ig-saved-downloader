@@ -1,14 +1,15 @@
-# instasaved
+# Instagram Saved Multimedia Downloader
 
-Download your saved Instagram posts
+Bulk-download your saved Instagram posts.
 
 ## Usage
 
-1) `pip3 install instagram_private_api`
-2) Enter username/password at the top of `main.py`
-3) `python3 main.py`
-4) `wget -i urls.txt`
-5) You now have all your saved images in an open form
+1. Clone and move to this repo: ```git clone https://github.com/luckyz/ig-saved-downloader.git && cd ig-saved-downloader.git```
+1. Create `virtualenv` typing ```virtualenv venv``` and activate it with ```source venv/bin/activate```
+2. `pip3 install instagram_private_api`
+3. Enter username and password credentials at the top of `main.py` (disable second-factor auth if are enabled)
+4. `python3 main.py`
+5. You now have all your saved images in `img/` folder
 
 ## Legal
 
