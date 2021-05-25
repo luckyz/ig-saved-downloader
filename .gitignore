@@ -130,3 +130,4 @@ dmypy.json
 
 .txt
 cookies.pkl
+.DS_Store
