@@ -1,15 +1,1 @@
-appdirs==1.4.4
-asgiref==3.2.10
-distlib==0.3.1
-Django==3.1.1
-filelock==3.0.12
 instagram-private-api==1.6.0.0
-powerline-status==2.7
-pyaes==1.6.1
-pyasn1==0.4.8
-pytz==2021.1
-rsa==4.7.2
-six==1.15.0
-sqlparse==0.4.1
-Telethon==1.21.1
-virtualenv==20.4.4
