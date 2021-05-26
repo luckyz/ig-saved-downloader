@@ -3,6 +3,7 @@ jobs:
     include:
         - name: "Python 3.9.0 on Linux"
           os: linux
+          dist: xenial
           python: 3.9.0
         - name: "Python 3.9.0 on macOS"
           os: osx
@@ -11,6 +12,8 @@ addons:
     apt:
         packages:
             - python3-pip
+before_install:
+    - pip3 install pytest
 install:
     - pip3 install -r requirements.txt
 script:
