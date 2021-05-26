@@ -13,5 +13,9 @@ addons:
     apt:
         packages:
             - python3-pip
+before_install:
+    - pip3 install pytest
 install:
     - pip3 install -r requirements.txt
+script:
+    - pytest
