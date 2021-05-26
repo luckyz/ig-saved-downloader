@@ -3,12 +3,21 @@ jobs:
     include:
         - name: "Python 3.9.0 on Linux"
           os: linux
-          python: 3.9.0
+          python: 3.5
+          python: 3.6
+          python: 3.7
         - name: "Python 3.9.0 on macOS"
           os: osx
-          python: 3.9.0
+          python: 3.5
+          python: 3.6
+          python: 3.7
+addons:
+    apt:
+        packages:
+            - python3-pip
 before_install:
-    - python3 -m pip3 install --upgrade pip
+    - python --version
+      python3 -m pip3 install --upgrade pip
 install:
     - pip3 install -r requirements.txt
 script:
