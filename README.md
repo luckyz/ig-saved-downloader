@@ -1,4 +1,4 @@
-![Travis](https://travis-ci.com/luckyz/ig-saved-downloader.svg?branch=master&status=passed)
+[![Build Status](https://travis-ci.com/luckyz/ig-saved-downloader.svg?branch=master)](https://travis-ci.com/luckyz/ig-saved-downloader)
 # Instagram Saved Multimedia Downloader
 
 Bulk-download your saved Instagram posts.
