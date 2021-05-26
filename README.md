@@ -1,15 +1,14 @@
-[![Build Status](https://travis-ci.com/luckyz/ig-saved-downloader.svg?branch=master)](https://travis-ci.com/luckyz/ig-saved-downloader)
-# Instagram Saved Multimedia Downloader
+# Instagram Saved Multimedia Downloader [![Build Status](https://travis-ci.com/luckyz/ig-saved-downloader.svg?branch=master)](https://travis-ci.com/luckyz/ig-saved-downloader)
 
 Bulk-download your saved Instagram posts.
 
 ## Usage
 
 1. Clone this repo ```git clone https://github.com/luckyz/ig-saved-downloader.git```
-2. Move to folder ```cd ig-saved-downloader/```
+2. Move to cloned folder ```cd ig-saved-downloader/```
 3. Create virtual environment typing ```virtualenv venv``` and activate it with ```source venv/bin/activate```
 4. `pip3 install -r requirements.txt`
-5. Enter username and password credentials at the top of `main.py` (disable second-factor authentication if enabled)
+5. Enter _username_ and _password_ credentials at the top of `main.py` (disable second-factor authentication if enabled)
 6. `python3 main.py`
 7. Now you have all saved images in `img/` folder
 
