@@ -18,7 +18,7 @@ Bulk-download your saved Instagram posts to get a digital copy of your multimedi
 
 ## Donate
 
-Want to keep this project going? Please donate generously [https://www.buymeacoffee.com/luking](https://www.buymeacoffee.com/luking/instagram-saved-downloader)
+Want to keep this project going? Please donate generously [https://www.buymeacoffee.com/luking/instagram-saved-downloader](https://www.buymeacoffee.com/luking/instagram-saved-downloader)
 
 [![Build](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/luking/instagram-saved-downloader)
 
