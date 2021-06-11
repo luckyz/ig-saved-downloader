@@ -1,6 +1,6 @@
 # Instagram Saved Multimedia Downloader [![Build Status](https://travis-ci.com/luckyz/ig-saved-downloader.svg?branch=master)](https://travis-ci.com/luckyz/ig-saved-downloader)
 
-Bulk-download your saved Instagram posts.
+Bulk-download your saved Instagram posts to get a digital copy of your multimedia collections.
 
 ## Usage
 
@@ -11,6 +11,12 @@ Bulk-download your saved Instagram posts.
 5. Enter _username_ and _password_ credentials at the top of `main.py` (disable second-factor authentication if enabled)
 6. `python3 main.py`
 7. Now you have all saved images in `img/` folder
+
+## Donate
+
+Want to keep this project going? Please donate generously [https://www.buymeacoffee.com/luking](https://www.buymeacoffee.com/luking)
+
+[![Build](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/luking)
 
 ## Legal
 
