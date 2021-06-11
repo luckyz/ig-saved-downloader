@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# import pretty_errors
-# import better_exceptions
 import time
 from datetime import datetime
 from instagram_private_api import Client
@@ -22,7 +20,6 @@ URL_DIR = os.path.join(BASE_DIR, URL_FILE)
 
 
 def use_cookies():
-
 	# Bootstrap code
 	cookies = None
 	try:
@@ -46,7 +43,6 @@ def use_cookies():
 
 
 def create_media_folder(media_folder):
-
 	if os.path.exists(media_folder):
 		os.system("rm -rf %s" % media_folder)
 		print("Deleting media folder")
@@ -69,13 +65,14 @@ def select_user(username):
 
 
 def parse_results(results, page_data):
-
 	def detect_media_type(url):
 		match = re.findall("jpg|mp4", url)
 		return match[0]
 
 	for result in results["items"]:
 		user = result["media"]["user"]["username"]
+		id = result["media"]["id"]
+
 		if user not in page_data.keys():
 			page_data[user] = []
 
@@ -91,7 +88,7 @@ def parse_results(results, page_data):
 
 		finally:
 			ext = detect_media_type(url)
-			page_data[user].append((url, ext))
+			page_data[user].append((url, id, ext))
 
 	return page_data
 
@@ -113,10 +110,6 @@ def show_statistics(stats):
 		print(f"  - {user}: {stats[user]}")
 
 
-def terminal_print(url, user, timestamp, ext):
-	os.system(f"wget -q -c '{url}' -O '{user} {timestamp}.{ext}'")
-
-
 def download_media(datalist):
 	for user in datalist:
 		select_user(user)
@@ -124,12 +117,17 @@ def download_media(datalist):
 		print("Downloading media from user [ {} ]".format(user))
 		for number, urls in enumerate(datalist[user]):
 			url = urls[0]
-			ext = urls[1]
+			id = urls[1]
+			ext = urls[2]
 
 			now = datetime.utcnow()
-			timestamp = now.strftime("%Y-%m-%d %H.%M.%S.%f")[:-3]
 
-			terminal_print(url, user, timestamp, ext)
+			if ext == "jpg" or ext == "png":
+				type = "IMG"
+			else:
+				type == "VID"
+
+			os.system(f"wget -q -c '{url}' -O '{type}_{id}.{ext}'")
 
 
 def main():
@@ -145,6 +143,7 @@ def main():
 	data = parse_results(results, data)
 	next_max_id = results.get("next_max_id")
 	stats = accumulate(data, stats)
+	download_media(data)
 	page_count = current_page(page_count)
 	time.sleep(1.5)
 
