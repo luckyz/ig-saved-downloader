@@ -4,13 +4,10 @@ import time
 from datetime import datetime
 from instagram_private_api import Client
 from pathlib import Path
+from getpass import getpass
 import os
 import re
 
-# Credentials #################################################################
-USERNAME = ""
-PASSWORD = ""
-###############################################################################
 URL_FILE = "urls.txt"
 MEDIA_FOLDER = "media"
 
@@ -30,10 +27,18 @@ def use_cookies():
 
 	if cookies is None:
 		print("Not using cookies")
-		api = Client(USERNAME, PASSWORD, auto_patch=True)
+		os.environ["INSTAGRAM_USER"] = input("> Enter your Instagram username:\n> ")
+		os.environ["INSTAGRAM_PASSWORD"] = getpass()
+
+		api = Client(os.getenv("INSTAGRAM_USER"),
+					 os.getenv("INSTAGRAM_PASSWORD"),
+					 auto_patch=True)
 	else:
 		print("Using cookies")
-		api = Client(USERNAME, PASSWORD, cookie=cookies, auto_patch=True)
+		api = Client(os.getenv("INSTAGRAM_USER"),
+					 os.getenv("INSTAGRAM_PASSWORD"),
+					 cookie=cookies,
+					 auto_patch=True)
 
 	cookies = api.cookie_jar.dump()
 	with open("cookies.pkl", "wb") as save_cookies:
@@ -43,17 +48,19 @@ def use_cookies():
 
 
 def create_media_folder(media_folder):
+	line_break = "\n"
 	if os.path.exists(media_folder):
 		os.system("rm -rf %s" % media_folder)
-		print("Deleting media folder")
+		line_break = ""
+		print("\nDeleting media folder")
 	os.mkdir(media_folder)
-	print("Media folder created")
+	print(f"{line_break}Media folder created\n")
 
 
 def ask_for_unsave():
-	answer = input("> Want you unsave all saved posts? [y/(n)]\n> ").lower()
+	answer = input("\n> Want you unsave all saved posts? [y/(n)]: ").lower()
 	while answer not in ("yes", "y", "no", "n", ""):
-		answer = input('> You must answer "yes" (y) or "no" (n)\n> ').lower()
+		answer = input('> You must answer "yes" (y) or "no" (n): ').lower()
 
 	if answer in ("no", "n", ""):
 		answer = False
@@ -153,11 +160,11 @@ def main():
 	stats = {}
 	page_count = 0
 
+	instagram = use_cookies()
+
 	unsave = ask_for_unsave()
 
 	create_media_folder(MEDIA_DIR)
-
-	instagram = use_cookies()
 
 	results = instagram.saved_feed()
 	data = parse_results(instagram, results, data, unsave)
