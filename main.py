@@ -50,11 +50,21 @@ def use_cookies():
 def create_media_folder(media_folder):
 	line_break = "\n"
 	if os.path.exists(media_folder):
-		os.system("rm -rf %s" % media_folder)
-		line_break = ""
-		print("\nDeleting media folder")
-	os.mkdir(media_folder)
-	print(f"{line_break}Media folder created\n")
+		answer = input("\n> Media folder has been found. Do you want to delete\
+					   it with all its content? [y/(n)]: ").lower()
+		while answer not in ("yes", "y", "no", "n", ""):
+			answer = input('> You must answer "yes" (y) or "no" (n): ').lower()
+
+		if answer in ("yes", "y"):
+			os.system("rm -rf %s" % media_folder)
+			line_break = ""
+			print("\nDeleting media folder")
+
+			os.mkdir(media_folder)
+			print(f"{line_break}Media folder created\n")
+	else:
+		os.mkdir(media_folder)
+		print(f"{line_break}Media folder created\n")
 
 
 def ask_for_unsave():
