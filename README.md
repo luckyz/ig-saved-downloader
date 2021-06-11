@@ -1,5 +1,9 @@
 # Instagram Saved Multimedia Downloader [![Build Status](https://travis-ci.com/luckyz/ig-saved-downloader.svg?branch=master)](https://travis-ci.com/luckyz/ig-saved-downloader)
 
+<p align="center">
+    <img src="https://raw.githubusercontent.com/luckyz/ig-saved-downloader/master/.github/ig-saved-downloader_logo.png">
+</p>
+
 Bulk-download your saved Instagram posts to get a digital copy of your multimedia collections.
 
 ## Usage
