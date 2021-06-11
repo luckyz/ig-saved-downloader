@@ -50,6 +50,19 @@ def create_media_folder(media_folder):
 	print("Media folder created")
 
 
+def ask_for_unsave():
+	answer = input("> Want you unsave all saved posts? [y/(n)]\n> ").lower()
+	while answer not in ("yes", "y", "no", "n", ""):
+		answer = input('> You must answer "yes" (y) or "no" (n)\n> ').lower()
+
+	if answer in ("no", "n", ""):
+		answer = False
+	else:
+		answer = True
+
+	return answer
+
+
 def current_page(page_count):
 	page_count += 1
 	print(f"\nCurrent page: #{page_count}")
@@ -64,7 +77,7 @@ def select_user(username):
 	os.chdir(user_dir)
 
 
-def parse_results(results, page_data):
+def parse_results(instagram, results, page_data, unsave):
 	def detect_media_type(url):
 		match = re.findall("jpg|mp4", url)
 		return match[0]
@@ -72,6 +85,7 @@ def parse_results(results, page_data):
 	for result in results["items"]:
 		user = result["media"]["user"]["username"]
 		id = result["media"]["id"]
+		pk = result["media"]["pk"]
 
 		if user not in page_data.keys():
 			page_data[user] = []
@@ -89,6 +103,10 @@ def parse_results(results, page_data):
 		finally:
 			ext = detect_media_type(url)
 			page_data[user].append((url, id, ext))
+
+			if unsave is True:
+				instagram.unsave_photo(pk)
+
 
 	return page_data
 
@@ -135,23 +153,28 @@ def main():
 	stats = {}
 	page_count = 0
 
+	unsave = ask_for_unsave()
+
 	create_media_folder(MEDIA_DIR)
 
 	instagram = use_cookies()
-	results = instagram.saved_feed()
 
-	data = parse_results(results, data)
+	results = instagram.saved_feed()
+	data = parse_results(instagram, results, data, unsave)
 	next_max_id = results.get("next_max_id")
 	stats = accumulate(data, stats)
+
 	download_media(data)
+
 	page_count = current_page(page_count)
 	time.sleep(1.5)
 
 	while next_max_id:
 		results = instagram.saved_feed(max_id=next_max_id)
-		response = parse_results(results, data)
+		response = parse_results(instagram, results, data, unsave)
 		next_max_id = results.get("next_max_id")
 		stats = accumulate(response, stats)
+
 		download_media(data)
 
 		page_count = current_page(page_count)
