@@ -8,12 +8,10 @@ from getpass import getpass
 import os
 import re
 
-URL_FILE = "urls.txt"
 MEDIA_FOLDER = "media"
 
 BASE_DIR = Path(__file__).resolve().parent
 MEDIA_DIR = os.path.join(BASE_DIR, MEDIA_FOLDER)
-URL_DIR = os.path.join(BASE_DIR, URL_FILE)
 
 
 def use_cookies():
@@ -50,21 +48,21 @@ def use_cookies():
 def create_media_folder(media_folder):
 	line_break = "\n"
 	if os.path.exists(media_folder):
-		answer = input("\n> Media folder has been found. Do you want to delete\
-					   it with all its content? [y/(n)]: ").lower()
+		answer = input(f"{line_break}> Media folder has been found. Do you want to delete \
+it with all its content? [y/(n)]: ").lower()
 		while answer not in ("yes", "y", "no", "n", ""):
 			answer = input('> You must answer "yes" (y) or "no" (n): ').lower()
 
 		if answer in ("yes", "y"):
 			os.system("rm -rf %s" % media_folder)
 			line_break = ""
-			print("\nDeleting media folder")
+			print(f"{line_break}Deleting media folder")
 
 			os.mkdir(media_folder)
-			print(f"{line_break}Media folder created\n")
+			print(f"{line_break}Media folder created{line_break}")
 	else:
 		os.mkdir(media_folder)
-		print(f"{line_break}Media folder created\n")
+		print(f"{line_break}Media folder created{line_break}")
 
 
 def ask_for_unsave():
@@ -119,7 +117,7 @@ def parse_results(instagram, results, page_data, unsave):
 
 		finally:
 			ext = detect_media_type(url)
-			page_data[user].append((url, id, ext))
+			page_data[user].append((url, pk, ext))
 
 			if unsave is True:
 				instagram.unsave_photo(pk)
@@ -152,17 +150,12 @@ def download_media(datalist):
 		print("Downloading media from user [ {} ]".format(user))
 		for number, urls in enumerate(datalist[user]):
 			url = urls[0]
-			id = urls[1]
+			pk = urls[1]
 			ext = urls[2]
 
 			now = datetime.utcnow()
 
-			if ext == "jpg" or ext == "png":
-				type = "IMG"
-			else:
-				type == "VID"
-
-			os.system(f"wget -q -c '{url}' -O '{type}_{id}.{ext}'")
+			os.system(f"wget -q -c '{url}' -O '{pk}.{ext}'")
 
 
 def main():
@@ -200,7 +193,7 @@ def main():
 
 	show_statistics(stats)
 
-	print("\nAll images has been succesfully downloaded!")
+	print("\nAll files has been succesfully downloaded!")
 
 
 if __name__ == "__main__":
