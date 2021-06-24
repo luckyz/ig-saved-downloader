@@ -12,7 +12,7 @@ Bulk-download your saved Instagram posts to get a digital copy of your multimedi
 2. Move to cloned folder ```cd ig-saved-downloader/```
 3. Create virtual environment typing ```virtualenv venv``` and activate it with ```source venv/bin/activate```
 4. `pip3 install -r requirements.txt`
-5. Enter _username_ and _password_ credentials at the top of `main.py` (disable second-factor authentication if enabled)
+5. Enter `username` and `password` credentials at the top of `main.py` (disable second-factor authentication if enabled)
 6. `python3 main.py`
 7. Now you have all saved images in `img/` folder
 
