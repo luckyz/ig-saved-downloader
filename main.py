@@ -29,7 +29,7 @@ def use_cookies():
 
 	if cookies is None:
 		print("-> Not using cookies")
-		os.environ["INSTAGRAM_USER"] = input("-> Enter your Instagram username:\n-> ")
+		os.environ["INSTAGRAM_USER"] = input("-> Enter your Instagram username:\n ")
 		os.environ["INSTAGRAM_PASSWORD"] = getpass()
 
 		api = Client(os.getenv("INSTAGRAM_USER"),
@@ -50,23 +50,21 @@ def use_cookies():
 
 
 def create_media_folder(media_folder):
-	line_break = "\n"
 	if os.path.exists(media_folder):
-		answer = input(f"{line_break}-> Media folder has been found. Do you want to delete \
+		answer = input("-> Media folder has been found. Do you want to delete \
 it with all its content? [y/(n)]: ").lower()
 		while answer not in ("yes", "y", "no", "n", ""):
 			answer = input('-> You must answer "yes" (y) or "no" (n): ').lower()
 
 		if answer in ("yes", "y"):
 			os.system("rm -rf %s" % media_folder)
-			line_break = ""
-			print(f"{line_break}-> Deleting media folder")
+			print("-> Deleting media folder")
 
 			os.mkdir(media_folder)
-			print(f"{line_break}-> Media folder created{line_break}")
+			print("-> Media folder created")
 	else:
 		os.mkdir(media_folder)
-		print(f"{line_break}-> Media folder created{line_break}")
+		print("-> Media folder created")
 
 
 def ask_for_unsave():
@@ -177,10 +175,7 @@ def main():
 	data = parse_results(instagram, results, data, unsave)
 	next_max_id = results.get("next_max_id")
 	stats = accumulate(data, stats)
-	print("\nCurrent page: #{}".format(page_count + 1))
-	with open("log.txt", "w") as f:
-		f.write(str(results))
-	print("{} multimedia files founded in current page".format(len(results["items"])))
+	print("\n-> Current page: #{}".format(page_count + 1))
 
 	download_media(data)
 
@@ -204,7 +199,7 @@ def main():
 
 	show_statistics(stats)
 
-	print("\nAll files has been succesfully downloaded!")
+	print("\n-> All files has been succesfully downloaded!")
 
 
 if __name__ == "__main__":
