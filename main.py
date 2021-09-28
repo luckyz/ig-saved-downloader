@@ -7,11 +7,15 @@ from pathlib import Path
 from getpass import getpass
 import os
 import re
+import logging
 
 MEDIA_FOLDER = "media"
 
 BASE_DIR = Path(__file__).resolve().parent
 MEDIA_DIR = os.path.join(BASE_DIR, MEDIA_FOLDER)
+
+# Log messages to file
+logging.basicConfig(format='[%(levelname)s] - %(asctime)s: %(message)s', level=logging.INFO, filename='log.txt')  # DEBUG
 
 
 def use_cookies():
@@ -24,15 +28,15 @@ def use_cookies():
 		pass
 
 	if cookies is None:
-		print("Not using cookies")
-		os.environ["INSTAGRAM_USER"] = input("> Enter your Instagram username:\n> ")
+		print("-> Not using cookies")
+		os.environ["INSTAGRAM_USER"] = input("-> Enter your Instagram username:\n-> ")
 		os.environ["INSTAGRAM_PASSWORD"] = getpass()
 
 		api = Client(os.getenv("INSTAGRAM_USER"),
 					 os.getenv("INSTAGRAM_PASSWORD"),
 					 auto_patch=True)
 	else:
-		print("Using cookies")
+		print("-> Using cookies")
 		api = Client(os.getenv("INSTAGRAM_USER"),
 					 os.getenv("INSTAGRAM_PASSWORD"),
 					 cookie=cookies,
@@ -48,27 +52,27 @@ def use_cookies():
 def create_media_folder(media_folder):
 	line_break = "\n"
 	if os.path.exists(media_folder):
-		answer = input(f"{line_break}> Media folder has been found. Do you want to delete \
+		answer = input(f"{line_break}-> Media folder has been found. Do you want to delete \
 it with all its content? [y/(n)]: ").lower()
 		while answer not in ("yes", "y", "no", "n", ""):
-			answer = input('> You must answer "yes" (y) or "no" (n): ').lower()
+			answer = input('-> You must answer "yes" (y) or "no" (n): ').lower()
 
 		if answer in ("yes", "y"):
 			os.system("rm -rf %s" % media_folder)
 			line_break = ""
-			print(f"{line_break}Deleting media folder")
+			print(f"{line_break}-> Deleting media folder")
 
 			os.mkdir(media_folder)
-			print(f"{line_break}Media folder created{line_break}")
+			print(f"{line_break}-> Media folder created{line_break}")
 	else:
 		os.mkdir(media_folder)
-		print(f"{line_break}Media folder created{line_break}")
+		print(f"{line_break}-> Media folder created{line_break}")
 
 
 def ask_for_unsave():
-	answer = input("\n> Want you unsave all saved posts? [y/(n)]: ").lower()
+	answer = input("\n-> Want you unsave all saved posts? [y/(n)]: ").lower()
 	while answer not in ("yes", "y", "no", "n", ""):
-		answer = input('> You must answer "yes" (y) or "no" (n): ').lower()
+		answer = input('-> You must answer "yes" (y) or "no" (n): ').lower()
 
 	if answer in ("no", "n", ""):
 		answer = False
@@ -80,7 +84,7 @@ def ask_for_unsave():
 
 def current_page(page_count):
 	page_count += 1
-	print(f"\nCurrent page: #{page_count}")
+	print("\n-> Current page: #{0}".format(page_count + 1))
 
 	return page_count
 
@@ -147,7 +151,7 @@ def download_media(datalist):
 	for user in datalist:
 		select_user(user)
 
-		print("Downloading media from user [ {} ]".format(user))
+		print("-> Downloading media from user [ {} ]".format(user))
 		for number, urls in enumerate(datalist[user]):
 			url = urls[0]
 			pk = urls[1]
@@ -173,13 +177,19 @@ def main():
 	data = parse_results(instagram, results, data, unsave)
 	next_max_id = results.get("next_max_id")
 	stats = accumulate(data, stats)
+	print("\nCurrent page: #{}".format(page_count + 1))
+	with open("log.txt", "w") as f:
+		f.write(str(results))
+	print("{} multimedia files founded in current page".format(len(results["items"])))
 
 	download_media(data)
 
 	page_count = current_page(page_count)
 	time.sleep(1.5)
 
-	while next_max_id:
+	count = len(results["items"])
+
+	while next_max_id and count <= 84:
 		results = instagram.saved_feed(max_id=next_max_id)
 		response = parse_results(instagram, results, data, unsave)
 		next_max_id = results.get("next_max_id")
@@ -189,6 +199,7 @@ def main():
 
 		page_count = current_page(page_count)
 		time.sleep(1.5)
+		count += len(results["items"])
 		data = {}
 
 	show_statistics(stats)
