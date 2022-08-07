@@ -134,3 +134,7 @@ cookies.pkl
 
 media/
 backup_media*/
+*.json
+*.png
+*.webp
+*.mp4
