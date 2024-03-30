@@ -105,33 +105,36 @@ def show_statistics():
     print(f"- {values} files has been downloaded from: {remove_chars(keys)}")
 
 def main():
-    use_cookies()
+    try:
+        use_cookies()
 
-    collection = cl.collection_medias("All Posts", 0)
-    username = collection[0].user.username
+        collection = cl.collection_medias("All Posts", 0)
+        username = collection[0].user.username
 
-    print(f"\n- {len(collection)} posts found")
+        print(f"\n- {len(collection)} posts found")
 
-    handle_folders(username, True)
-    download_media(collection[0])
-    cl.media_unsave(collection[0].id)
+        handle_folders(username, True)
+        download_media(collection[0])
+        cl.media_unsave(collection[0].id)
 
-    collection.pop(0)
+        collection.pop(0)
 
-    count = 0
+        count = 0
 
-    for index, media in enumerate(collection):
-        username = media.user.username
-        handle_folders(username)
-        download_media(media)
-        cl.media_unsave(media.id)
+        for index, media in enumerate(collection):
+            username = media.user.username
+            handle_folders(username)
+            download_media(media)
+            cl.media_unsave(media.id)
 
-        count += 1
-        if count == 21:
-            print(f"\nWaiting 5 minutes to prevent a ban\n")
-            time.sleep(60 * 5) # wait 5 minutes
+            count += 1
+            if count == 21:
+                print(f"\nWaiting 5 minutes to prevent a ban\n")
+                time.sleep(60 * 5) # wait 5 minutes
 
-    show_statistics()
+        show_statistics()
+    except IndexError as e:
+        print(f"There are probably no saved posts?")
 
 
 if "__main__" == __name__:
